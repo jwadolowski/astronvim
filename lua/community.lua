@@ -9,7 +9,6 @@ return {
 
   -- color
   { import = "astrocommunity.color.tint-nvim" },
-  -- { import = "astrocommunity.color.vim-highlighter" },
 
   -- colorshemes
   { import = "astrocommunity.colorscheme.tokyonight-nvim" },
@@ -18,7 +17,6 @@ return {
   { import = "astrocommunity.debugging.nvim-bqf" },
 
   -- editing-support
-  { import = "astrocommunity.editing-support.nvim-treesitter-context" },
   { import = "astrocommunity.editing-support.rainbow-delimiters-nvim" },
   { import = "astrocommunity.editing-support.suda-vim" },
   { import = "astrocommunity.editing-support.yanky-nvim" },
@@ -56,7 +54,4 @@ return {
 
   -- syntax
   { import = "astrocommunity.syntax.hlargs-nvim" },
-
-  -- utility
-  { import = "astrocommunity.utility.noice-nvim" },
 }
