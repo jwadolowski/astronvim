@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
 -- Configuration documentation can be found with `:h astrocore`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
@@ -27,7 +25,7 @@ return {
     -- vim options can be configured here
     options = {
       opt = { -- vim.opt.<key>
-        relativenumber = true, -- sets vim.opt.relativenumber
+        relativenumber = false, -- sets vim.opt.relativenumber
         number = true, -- sets vim.opt.number
         spell = false, -- sets vim.opt.spell
         signcolumn = "auto", -- sets vim.opt.signcolumn to auto
@@ -64,11 +62,32 @@ return {
         ["<Leader>b"] = { desc = "Buffers" },
         -- quick save
         -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+
+        -- ctrl-p (memory muscle)
+        --
+        -- ignore "vendor" (Go) and "node_modules" while searching
+        ["<C-p>"] = {
+          function()
+            require("telescope.builtin").find_files {
+              hidden = true,
+              file_ignore_patterns = { "vendor", "node_modules" },
+            }
+          end,
+          desc = "Find files",
+        },
+        ["<Leader>r"] = {
+          function() require("telescope.builtin").commands() end,
+          desc = "Run command",
+        },
       },
       t = {
         -- setting a mapping to false will disable it
         -- ["<esc>"] = false,
       },
+    },
+    rooter = {
+      -- replaces https://github.com/ahmedkhalf/project.nvim
+      autochdir = true,
     },
   },
 }
