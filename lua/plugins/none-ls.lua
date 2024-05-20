@@ -29,6 +29,11 @@ return {
 
       -- required to format markdown files
       null_ls.builtins.formatting.prettierd,
+
+      -- relaxed yamllint settings
+      null_ls.builtins.diagnostics.yamllint.with {
+        extra_args = { "-d", "{ extends: relaxed, rules: { line-length: disable } }" },
+      },
     }
     return config -- return final config table
   end,
