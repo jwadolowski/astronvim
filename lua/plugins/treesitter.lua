@@ -9,6 +9,7 @@ return {
       "lua",
       "vim",
       "hurl",
+      "gotmpl",
     })
   end,
 }
