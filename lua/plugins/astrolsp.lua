@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
@@ -26,7 +24,8 @@ return {
           -- "go",
         },
         ignore_filetypes = { -- disable format on save for specified filetypes
-          -- "python",
+          "json",
+          "markdown",
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers
@@ -46,6 +45,23 @@ return {
     ---@diagnostic disable: missing-fields
     config = {
       -- clangd = { capabilities = { offsetEncoding = "utf-8" } },
+
+      -- yamlls generated errors for all Helm files ("templates/_helpers.tpl" in particular) are really misleading
+      -- hence the integration with YAML language server got disabled
+      --
+      -- https://github.com/mrjosh/helm-ls?tab=readme-ov-file#integration-with-yaml-language-server
+      -- https://www.arthurkoziel.com/json-schemas-in-neovim/
+      helm_ls = {
+        settings = {
+          ["helm-ls"] = {
+            yamlls = {
+              enabled = false,
+            },
+          },
+        },
+      },
+
+      -- additional k8s schema
     },
     -- customize how language servers are attached
     handlers = {
@@ -84,7 +100,7 @@ return {
     -- mappings to be set up on attaching of a language server
     mappings = {
       n = {
-        gl = { function() vim.diagnostic.open_float() end, desc = "Hover diagnostics" },
+        -- gl = { function() vim.diagnostic.open_float() end, desc = "Hover diagnostics" },
         -- a `cond` key can provided as the string of a server capability to be required to attach, or a function with `client` and `bufnr` parameters from the `on_attach` that returns a boolean
         -- gD = {
         --   function() vim.lsp.buf.declaration() end,
