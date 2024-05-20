@@ -32,7 +32,10 @@ return {
 
       -- relaxed yamllint settings
       null_ls.builtins.diagnostics.yamllint.with {
-        extra_args = { "-d", "{ extends: relaxed, rules: { line-length: disable } }" },
+        extra_args = {
+          "-d",
+          "{ extends: relaxed, rules: { line-length: disable, empty-lines: disable, indentation: { indent-sequences: whatever } } }",
+        },
       },
     }
     return config -- return final config table
