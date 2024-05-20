@@ -86,6 +86,12 @@ return {
       },
     },
     rooter = {
+      -- prefer .git over LSP
+      detector = {
+        { ".git", "_darcs", ".hg", ".bzr", ".svn" },
+        "lsp",
+        { "lua", "MakeFile", "package.json" },
+      },
       -- replaces https://github.com/ahmedkhalf/project.nvim
       autochdir = true,
     },
