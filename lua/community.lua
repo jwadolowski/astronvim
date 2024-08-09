@@ -13,9 +13,6 @@ return {
   -- colorshemes
   { import = "astrocommunity.colorscheme.tokyonight-nvim" },
 
-  -- debugging
-  { import = "astrocommunity.debugging.nvim-bqf" },
-
   -- editing-support
   { import = "astrocommunity.editing-support.rainbow-delimiters-nvim" },
   { import = "astrocommunity.editing-support.suda-vim" },
@@ -51,6 +48,9 @@ return {
   { import = "astrocommunity.pack.typescript-all-in-one" },
   { import = "astrocommunity.pack.vue" },
   { import = "astrocommunity.pack.yaml" },
+
+  -- quickfix
+  { import = "astrocommunity.quickfix.nvim-bqf" },
 
   -- syntax
   { import = "astrocommunity.syntax.hlargs-nvim" },
