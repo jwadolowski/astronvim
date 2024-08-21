@@ -42,6 +42,7 @@ return {
   { import = "astrocommunity.pack.pkl" },
   { import = "astrocommunity.pack.proto" },
   { import = "astrocommunity.pack.python-ruff" },
+  { import = "astrocommunity.pack.rego" },
   { import = "astrocommunity.pack.ruby" },
   { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.pack.templ" },
