@@ -12,6 +12,7 @@ return {
 
   -- colorshemes
   { import = "astrocommunity.colorscheme.tokyonight-nvim" },
+  { import = "astrocommunity.colorscheme.catppuccin" },
 
   -- editing-support
   { import = "astrocommunity.editing-support.rainbow-delimiters-nvim" },
