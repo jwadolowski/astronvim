@@ -27,6 +27,7 @@ return {
   { import = "astrocommunity.motion.flash-nvim" },
 
   -- pack
+  { import = "astrocommunity.pack.ansible" },
   { import = "astrocommunity.pack.bash" },
   { import = "astrocommunity.pack.cue" },
   { import = "astrocommunity.pack.docker" },
