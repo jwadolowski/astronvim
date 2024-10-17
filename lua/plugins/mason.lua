@@ -22,6 +22,7 @@ return {
         "stylua",
         "trivy",
         "yamllint",
+        "vale",
         -- add more arguments for adding more null-ls sources
       },
     },
