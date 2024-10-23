@@ -43,5 +43,9 @@ vim.filetype.add {
     -- - foo.yaml.ci.tpl
     -- - bar.yaml.ci.tpln
     [".+%.ya?ml%.ci%.tpln?"] = { "yaml" },
+    -- Hugo templates
+    --
+    -- use 'helm' instead of 'gotmpl' to leverage better syntax highlighting
+    [".+/layouts/partials/.+%.html"] = { "helm" },
   },
 }
