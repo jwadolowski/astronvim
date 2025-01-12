@@ -11,8 +11,10 @@ return {
   { import = "astrocommunity.color.tint-nvim" },
 
   -- colorshemes
-  { import = "astrocommunity.colorscheme.tokyonight-nvim" },
   { import = "astrocommunity.colorscheme.catppuccin" },
+
+  -- completion
+  { import = "astrocommunity.completion.supermaven-nvim" },
 
   -- editing-support
   { import = "astrocommunity.editing-support.rainbow-delimiters-nvim" },
