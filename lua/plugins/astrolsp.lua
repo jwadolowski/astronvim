@@ -27,6 +27,7 @@ return {
           "markdown",
           "xml",
           "java",
+          "javascript",
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers
