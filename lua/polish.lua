@@ -8,6 +8,8 @@ vim.filetype.add {
     hurl = "hurl",
     -- https://jsonlines.org/
     jsonl = "json",
+    -- https://github.com/terraform-linters/tflint?tab=readme-ov-file#getting-started
+    hcl = "terraform",
   },
   filename = {
     -- ["Foofile"] = "fooscript",
