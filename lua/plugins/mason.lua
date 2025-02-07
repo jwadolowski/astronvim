@@ -20,7 +20,6 @@ return {
     opts = {
       ensure_installed = {
         "stylua",
-        "trivy",
         "yamllint",
         "vale",
         -- add more arguments for adding more null-ls sources
