@@ -13,6 +13,7 @@ vim.filetype.add {
   },
   filename = {
     -- ["Foofile"] = "fooscript",
+    ["uv.lock"] = "toml",
   },
   pattern = {
     -- Lua does not support regex
