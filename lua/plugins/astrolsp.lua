@@ -29,6 +29,7 @@ return {
           "java",
           "javascript",
           "typescript",
+          "html",
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers
