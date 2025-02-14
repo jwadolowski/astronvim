@@ -29,6 +29,7 @@ return {
           "java",
           "javascript",
           "typescript",
+          "typescriptreact",
           "html",
         },
       },
