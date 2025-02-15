@@ -25,8 +25,7 @@ return {
         "--stream",
         "--cache-prompts",
         "--architect",
-        "--code-theme",
-        "dracula",
+        "--dark-mode",
       },
       win = {
         position = "right",
