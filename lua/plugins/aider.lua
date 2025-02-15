@@ -25,8 +25,6 @@ return {
         "--stream",
         "--cache-prompts",
         "--architect",
-        -- "--model ollama_chat/deepseek-r2:14b",
-        -- "--editor-model sonnet",
       },
       win = {
         position = "right",
