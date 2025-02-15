@@ -78,12 +78,19 @@ return {
           function() require("telescope.builtin").commands() end,
           desc = "Run command",
         },
-        ["<Leader>k"] = {
-          function() require "kustomize" end,
+        ["<C-k>"] = {
           desc = "Kustomize",
+        },
+        ["<Leader>a"] = {
+          desc = "Aider",
         },
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
+      },
+      v = {
+        ["<Leader>a"] = {
+          desc = "Aider",
+        },
       },
     },
     rooter = {
