@@ -24,7 +24,8 @@ return {
         "--pretty",
         "--stream",
         "--cache-prompts",
-        "--dark-mode",
+        "--code-theme",
+        "dracula",
       },
       win = {
         position = "right",
