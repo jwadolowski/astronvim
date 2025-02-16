@@ -24,7 +24,6 @@ return {
         "--pretty",
         "--stream",
         "--cache-prompts",
-        "--architect",
         "--dark-mode",
       },
       win = {
