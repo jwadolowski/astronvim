@@ -24,6 +24,7 @@ return {
         "--pretty",
         "--stream",
         "--cache-prompts",
+        "--no-suggest-shell-commands",
         "--code-theme",
         "dracula",
       },
