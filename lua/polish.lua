@@ -5,6 +5,7 @@
 -- Set up custom filetypes
 vim.filetype.add {
   extension = {
+    Jenkinsfile = "groovy",
     hurl = "hurl",
     -- https://jsonlines.org/
     jsonl = "json",
