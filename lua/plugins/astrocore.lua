@@ -63,16 +63,34 @@ return {
         -- ["<Leader>b"] = { desc = "Buffers" },
 
         -- ctrl-p (memory muscle)
-        --
-        -- ignore "vendor" (Go) and "node_modules" while searching
         ["<C-p>"] = {
           function()
-            require("telescope.builtin").find_files {
-              hidden = true,
-              file_ignore_patterns = { "vendor", "node_modules" },
+            require("snacks").picker.files {
+              hidden = vim.tbl_get((vim.uv or vim.loop).fs_stat ".git" or {}, "type") == "directory",
+              dirs = { vim.fn.getcwd() },
             }
           end,
           desc = "Find files",
+        },
+        -- ctrl-f (handy helper to narrow down the scope to a single terraform module)
+        ["<C-f>"] = {
+          function()
+            local rooter = require "astrocore.rooter"
+            local roots = rooter.detect(0, false, { detector = { "production", "staging", "development" } })
+
+            -- Default to cwd
+            local search_dirs = { vim.fn.getcwd() }
+            if #roots > 0 then
+              -- use production/staging/development dir if found
+              search_dirs = { roots[1].paths[1] }
+            end
+
+            require("snacks").picker.files {
+              hidden = vim.tbl_get((vim.uv or vim.loop).fs_stat ".git" or {}, "type") == "directory",
+              dirs = search_dirs,
+            }
+          end,
+          desc = "Find files in Terraform module scope",
         },
         ["<Leader>r"] = {
           function() require("telescope.builtin").commands() end,
