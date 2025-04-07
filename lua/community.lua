@@ -4,7 +4,6 @@
 
 ---@type LazySpec
 return {
-  -- default
   "AstroNvim/astrocommunity",
 
   -- color
