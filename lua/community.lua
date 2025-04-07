@@ -4,8 +4,8 @@
 
 ---@type LazySpec
 return {
-  -- default
   "AstroNvim/astrocommunity",
+  { import = "astrocommunity.pack.lua" },
 
   -- color
   { import = "astrocommunity.color.tint-nvim" },
