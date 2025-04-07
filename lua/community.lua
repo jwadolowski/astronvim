@@ -19,9 +19,6 @@ return {
   { import = "astrocommunity.editing-support.rainbow-delimiters-nvim" },
   { import = "astrocommunity.editing-support.suda-vim" },
 
-  -- fuzzy-finder
-  { import = "astrocommunity.fuzzy-finder/snacks-picker" },
-
   -- media
   { import = "astrocommunity.media.codesnap-nvim" },
 
