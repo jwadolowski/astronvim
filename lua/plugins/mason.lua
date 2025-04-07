@@ -17,14 +17,17 @@ return {
   {
     "jay-babu/mason-null-ls.nvim",
     -- overrides `require("mason-null-ls").setup(...)`
-    opts = {
-      ensure_installed = {
+    opts = function(_, opts)
+      opts.ensure_installed = {
         "stylua",
         "yamllint",
         "vale",
         -- add more arguments for adding more null-ls sources
-      },
-    },
+      }
+
+      -- Remove tfsec if it was added elsewhere
+      opts.ensure_installed = vim.tbl_filter(function(tool) return tool ~= "tfsec" end, opts.ensure_installed)
+    end,
   },
   {
     "jay-babu/mason-nvim-dap.nvim",
@@ -35,5 +38,13 @@ return {
         -- add more arguments for adding more debuggers
       },
     },
+  },
+  -- Add an override for mason-tool-installer to remove tfsec
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    opts = function(_, opts)
+      -- Remove tfsec from ensure_installed if it exists
+      opts.ensure_installed = vim.tbl_filter(function(tool) return tool ~= "tfsec" end, opts.ensure_installed or {})
+    end,
   },
 }
