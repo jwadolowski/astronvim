@@ -4,7 +4,7 @@
 return {
   -- use mason-tool-installer for automatically installing Mason packages
   --
-  -- https://github.com/AstroNvim/astrocommunity/pull/1508
+  -- Remove buf_ls once https://github.com/AstroNvim/astrocommunity/pull/1508 is merged
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     opts = function(_, opts)
