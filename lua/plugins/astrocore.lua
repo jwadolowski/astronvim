@@ -127,11 +127,27 @@ return {
         -- ctrl-f (handy helper to narrow down the scope to a single terraform module)
         ["<C-f>"] = {
           function()
+            -- Get the current file's directory
+            local current_file = vim.fn.expand "%:p"
+            local current_dir = vim.fn.fnamemodify(current_file, ":h")
+
+            -- Check if current file is in a terraform directory
+            local is_terraform = string.match(current_file, "/terraform/") ~= nil
+
+            if not is_terraform then
+              -- Behave like <C-p> when not in terraform directory
+              require("snacks").picker.files {
+                hidden = vim.tbl_get((vim.uv or vim.loop).fs_stat ".git" or {}, "type") == "directory",
+                dirs = { vim.fn.getcwd() },
+              }
+              return
+            end
+
             local rooter = require "astrocore.rooter"
             local roots = rooter.detect(0, false, { detector = { "production", "staging", "development" } })
 
-            -- Default to cwd
-            local search_dirs = { vim.fn.getcwd() }
+            -- Default to current file's directory instead of cwd
+            local search_dirs = { current_dir }
             if #roots > 0 then
               -- use production/staging/development dir if found
               search_dirs = { roots[1].paths[1] }
