@@ -119,7 +119,6 @@ return {
           function()
             require("snacks").picker.files {
               hidden = vim.tbl_get((vim.uv or vim.loop).fs_stat ".git" or {}, "type") == "directory",
-              dirs = { vim.fn.getcwd() },
             }
           end,
           desc = "Find files",
@@ -155,7 +154,7 @@ return {
 
             require("snacks").picker.files {
               hidden = vim.tbl_get((vim.uv or vim.loop).fs_stat ".git" or {}, "type") == "directory",
-              dirs = search_dirs,
+              cwd = search_dirs[1],
             }
           end,
           desc = "Find files in Terraform module scope",
