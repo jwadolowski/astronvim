@@ -3,6 +3,31 @@
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
 --       as this provides autocomplete and documentation while editing
 
+-- Helper function to check if current file is in a terraform directory
+local function is_terraform()
+  local current_file = vim.fn.expand "%:p"
+  return string.match(current_file, "/terraform/") ~= nil
+end
+
+-- Helper function to get terraform root directory
+-- Returns the search directory for terraform projects
+local function get_terraform_search_dir()
+  local current_file = vim.fn.expand "%:p"
+  local current_dir = vim.fn.fnamemodify(current_file, ":h")
+
+  local rooter = require "astrocore.rooter"
+  local roots = rooter.detect(0, false, { detector = { "production", "staging", "development" } })
+
+  -- Default to current file's directory instead of cwd
+  local search_dir = current_dir
+  if #roots > 0 then
+    -- use production/staging/development dir if found
+    search_dir = roots[1].paths[1]
+  end
+
+  return search_dir
+end
+
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
@@ -114,50 +139,47 @@ return {
         -- this is useful for naming menus
         -- ["<Leader>b"] = { desc = "Buffers" },
 
-        -- ctrl-p (memory muscle)
+        -- ctrl-p (memory muscle; narrow down the scope to a single terraform module if applicable)
         ["<C-p>"] = {
           function()
-            require("snacks").picker.files {
-              hidden = vim.tbl_get((vim.uv or vim.loop).fs_stat ".git" or {}, "type") == "directory",
-            }
-          end,
-          desc = "Find files",
-        },
-        -- ctrl-f (handy helper to narrow down the scope to a single terraform module)
-        ["<C-f>"] = {
-          function()
-            -- Get the current file's directory
-            local current_file = vim.fn.expand "%:p"
-            local current_dir = vim.fn.fnamemodify(current_file, ":h")
-
-            -- Check if current file is in a terraform directory
-            local is_terraform = string.match(current_file, "/terraform/") ~= nil
-
-            if not is_terraform then
+            if not is_terraform() then
               -- Behave like <C-p> when not in terraform directory
               require("snacks").picker.files {
                 hidden = vim.tbl_get((vim.uv or vim.loop).fs_stat ".git" or {}, "type") == "directory",
+                ignored = false,
               }
               return
             end
 
-            local rooter = require "astrocore.rooter"
-            local roots = rooter.detect(0, false, { detector = { "production", "staging", "development" } })
-
-            -- Default to current file's directory instead of cwd
-            local search_dirs = { current_dir }
-            if #roots > 0 then
-              -- use production/staging/development dir if found
-              search_dirs = { roots[1].paths[1] }
-            end
-
+            local search_dir = get_terraform_search_dir()
             require("snacks").picker.files {
               hidden = vim.tbl_get((vim.uv or vim.loop).fs_stat ".git" or {}, "type") == "directory",
-              cwd = search_dirs[1],
+              cwd = search_dir,
+              ignored = false,
             }
           end,
-          desc = "Find files in Terraform module scope",
+          desc = "Find files",
         },
+
+        ["<Leader>fw"] = {
+          function()
+            if not is_terraform() then
+              -- Behave like standard word search when not in terraform directory
+              require("snacks").picker.grep {
+                ignored = false,
+              }
+              return
+            end
+
+            local search_dir = get_terraform_search_dir()
+            require("snacks").picker.grep {
+              cwd = search_dir,
+              ignored = false,
+            }
+          end,
+          desc = "Find words",
+        },
+
         ["<Leader>r"] = {
           function() require("telescope.builtin").commands() end,
           desc = "Run command",
