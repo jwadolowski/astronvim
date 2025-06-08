@@ -59,6 +59,15 @@ return {
           },
         },
       },
+
+      -- terraform-ls generates very verbose RPC logging that fills up the LSP log
+      --
+      -- See:
+      -- - https://github.com/hashicorp/terraform-ls/issues/1234
+      -- - https://github.com/hashicorp/terraform-ls/issues/1271
+      terraformls = {
+        cmd = { "terraform-ls", "serve", "-log-file", "/dev/null" },
+      },
     },
     -- customize how language servers are attached
     handlers = {
