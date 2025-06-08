@@ -137,7 +137,6 @@ return {
               -- Behave like <C-p> when not in terraform directory
               require("snacks").picker.files {
                 hidden = vim.tbl_get((vim.uv or vim.loop).fs_stat ".git" or {}, "type") == "directory",
-                dirs = { vim.fn.getcwd() },
               }
               return
             end
