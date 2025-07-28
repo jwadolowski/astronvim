@@ -7,11 +7,11 @@ return {
     ensure_installed = {
       "lua",
       "vim",
-      "hurl",
       "gotmpl",
       -- add more arguments for adding more treesitter parsers
     },
     -- NGINX tree-sitter parser seems to be broken, do not install it
-    ignore_install = { "nginx" },
+    -- Hurl tree-sitter parser doesn't seem to work correctly and yields a lot of errors
+    ignore_install = { "nginx", "hurl" },
   },
 }
