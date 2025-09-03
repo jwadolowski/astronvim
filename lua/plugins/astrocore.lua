@@ -209,5 +209,17 @@ return {
       -- replaces https://github.com/ahmedkhalf/project.nvim
       autochdir = true,
     },
+    autocmds = {
+      supermaven_large_buf = {
+        {
+          event = "User",
+          pattern = "AstroLargeBuf",
+          callback = function()
+            local ok, api = pcall(require, "supermaven-nvim.api")
+            if ok and api and api.stop then api.stop() end
+          end,
+        },
+      },
+    },
   },
 }
