@@ -45,6 +45,22 @@ return {
     config = {
       -- clangd = { capabilities = { offsetEncoding = "utf-8" } },
 
+      -- bash-language-server: Google Shell Style when .editorconfig is missing
+      -- Ref: https://google.github.io/styleguide/shellguide.html
+      --
+      -- Notes:
+      -- - Indent comes from editor settings, not LSP config
+      bashls = {
+        settings = {
+          bashIde = {
+            shfmt = {
+              caseIndent = true, -- (--case-indent)
+              simplifyCode = true, -- (--simplify)
+            },
+          },
+        },
+      },
+
       -- yamlls generated errors for all Helm files ("templates/_helpers.tpl" in particular) are really misleading
       -- hence the integration with YAML language server got disabled
       --

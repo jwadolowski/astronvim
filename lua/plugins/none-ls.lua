@@ -18,18 +18,6 @@ return {
       -- null_ls.builtins.formatting.stylua,
       -- null_ls.builtins.formatting.prettier,
 
-      -- shfmt options:
-      -- -i,  --indent uint       0 for tabs (default), >0 for number of spaces
-      -- -ci, --case-indent       switch cases will be indented
-      --
-      -- Refs:
-      -- - https://google.github.io/styleguide/shellguide.html
-      null_ls.builtins.formatting.shfmt.with {
-        extra_args = { "-i", "2", "-ci" },
-        -- shfmt works just fine for Bash-like .zsh files too
-        filetypes = { "sh", "zsh" },
-      },
-
       -- required to format markdown files
       null_ls.builtins.formatting.prettierd,
 
