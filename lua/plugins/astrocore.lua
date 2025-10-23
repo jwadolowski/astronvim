@@ -28,6 +28,13 @@ local function get_terraform_search_dir()
   return search_dir
 end
 
+-- Uses same logic as AstroNvim's large_buf_detector
+local function is_large_buf(bufnr)
+  local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+  local large_buf = assert(require("astrocore").config.features.large_buf)
+  return (ok and stats and stats.size > large_buf.size) or vim.api.nvim_buf_line_count(bufnr) > large_buf.lines
+end
+
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
@@ -211,12 +218,36 @@ return {
     },
     autocmds = {
       supermaven_large_buf = {
+        -- Handle AstroNvim's AstroLargeBuf User event
         {
           event = "User",
           pattern = "AstroLargeBuf",
           callback = function()
             local ok, api = pcall(require, "supermaven-nvim.api")
             if ok and api and api.stop then api.stop() end
+          end,
+        },
+        -- Fallback for StdinReadPost (piped input) which AstroNvim doesn't detect
+        {
+          event = "StdinReadPost",
+          callback = function(args)
+            -- Skip if already marked as large (AstroNvim might have already handled it)
+            if vim.b[args.buf].large_buf then return end
+
+            if is_large_buf(args.buf) then
+              vim.b[args.buf].large_buf = true
+
+              -- Show notification (matching AstroNvim's style)
+              local buf_name = vim.api.nvim_buf_get_name(args.buf)
+              if buf_name == "" then buf_name = "[stdin]" end
+              vim.notify(
+                ("Large file detected `%s`\nSome Neovim features may be **disabled**"):format(buf_name),
+                vim.log.levels.INFO
+              )
+
+              -- Fire AstroLargeBuf event so other handlers run (including Supermaven stop)
+              require("astrocore").event("LargeBuf", true)
+            end
           end,
         },
       },
