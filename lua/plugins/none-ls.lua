@@ -17,9 +17,7 @@ return {
       -- Set a formatter
       -- null_ls.builtins.formatting.stylua,
       -- null_ls.builtins.formatting.prettier,
-
-      -- required to format markdown files
-      null_ls.builtins.formatting.prettierd,
+      -- INFO: prettierd is auto-registered by mason-null-ls for all supported filetypes (yaml, markdown, json, …)
 
       -- relaxed yamllint settings
       null_ls.builtins.diagnostics.yamllint.with {
