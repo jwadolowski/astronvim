@@ -187,15 +187,107 @@ return {
         ["<C-k>"] = {
           desc = "Kustomize",
         },
-        ["<Leader>a"] = {
-          desc = "Aider",
+
+        -- Remap sidekick.nvim from <Leader>A to <Leader>a
+        -- (astrocommunity.ai.sidekick-nvim registers these under <Leader>A)
+        ["<Leader>A"] = false,
+        ["<Leader>Aa"] = false,
+        ["<Leader>As"] = false,
+        ["<Leader>Ad"] = false,
+        ["<Leader>At"] = false,
+        ["<Leader>Af"] = false,
+        ["<Leader>Ap"] = false,
+        ["<Leader>An"] = false,
+        ["<Leader>Ant"] = false,
+        ["<Leader>Ane"] = false,
+        ["<Leader>And"] = false,
+        ["<Leader>Anu"] = false,
+        ["<Leader>a"] = { desc = require("astroui").get_icon("Sidekick", 1, true) .. "Sidekick" },
+        ["<Leader>aa"] = {
+          function() require("sidekick.cli").toggle { name = "opencode" } end,
+          desc = "Sidekick Toggle CLI",
         },
+        ["<Leader>as"] = {
+          function() require("sidekick.cli").select() end,
+          desc = "Select CLI",
+        },
+        ["<Leader>ad"] = {
+          function() require("sidekick.cli").close { name = "opencode" } end,
+          desc = "Detach a CLI Session",
+        },
+        ["<Leader>at"] = {
+          function() require("sidekick.cli").send { name = "opencode", msg = "{this}" } end,
+          desc = "Send This",
+        },
+        ["<Leader>af"] = {
+          function() require("sidekick.cli").send { name = "opencode", msg = "{file}" } end,
+          desc = "Send File",
+        },
+        ["<Leader>ap"] = {
+          function() require("sidekick.cli").prompt() end,
+          desc = "Select Prompt",
+        },
+        ["<Leader>an"] = { desc = require("astroui").get_icon("SidekickBrain", 1, true) .. "NES" },
+        ["<Leader>ant"] = {
+          function() require("sidekick.nes").toggle() end,
+          desc = "Toggle NES",
+        },
+        ["<Leader>ane"] = {
+          function() require("sidekick.nes").enable() end,
+          desc = "Enable NES",
+        },
+        ["<Leader>and"] = {
+          function() require("sidekick.nes").disable() end,
+          desc = "Disable NES",
+        },
+        ["<Leader>anu"] = {
+          function() require("sidekick.nes").update() end,
+          desc = "Update Suggestions",
+        },
+
+        -- Pin quick-toggle to opencode
+        ["<C-.>"] = {
+          function() require("sidekick.cli").toggle { name = "opencode" } end,
+          desc = "Sidekick Toggle",
+        },
+
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
       },
-      v = {
-        ["<Leader>a"] = {
-          desc = "Aider",
+      i = {
+        ["<C-.>"] = {
+          function() require("sidekick.cli").toggle { name = "opencode" } end,
+          desc = "Sidekick Toggle",
+        },
+      },
+      t = {
+        ["<C-.>"] = {
+          function() require("sidekick.cli").toggle { name = "opencode" } end,
+          desc = "Sidekick Toggle",
+        },
+      },
+      x = {
+        -- Remap sidekick.nvim from <Leader>A to <Leader>a (visual mode)
+        ["<Leader>A"] = false,
+        ["<Leader>At"] = false,
+        ["<Leader>Av"] = false,
+        ["<Leader>Ap"] = false,
+        ["<Leader>a"] = { desc = require("astroui").get_icon("Sidekick", 1, true) .. "Sidekick" },
+        ["<Leader>at"] = {
+          function() require("sidekick.cli").send { msg = "{this}" } end,
+          desc = "Send This",
+        },
+        ["<Leader>av"] = {
+          function() require("sidekick.cli").send { msg = "{selection}" } end,
+          desc = "Send Visual Selection",
+        },
+        ["<Leader>ap"] = {
+          function() require("sidekick.cli").prompt {} end,
+          desc = "Select Prompt",
+        },
+        ["<C-.>"] = {
+          function() require("sidekick.cli").toggle { name = "opencode" } end,
+          desc = "Sidekick Toggle",
         },
       },
     },
