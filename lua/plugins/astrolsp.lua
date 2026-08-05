@@ -77,6 +77,9 @@ return {
         },
       },
 
+      -- override cmd: AstroLSP bypasses mason-lspconfig's server_config hook
+      groovyls = { cmd = { vim.fn.stdpath "data" .. "/mason/bin/groovy-language-server" } },
+
       -- terraform-ls generates very verbose RPC logging that fills up the LSP log
       --
       -- See:
