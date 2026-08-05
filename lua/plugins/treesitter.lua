@@ -8,6 +8,7 @@ return {
       "lua",
       "vim",
       "gotmpl",
+      "groovy",
       -- add more arguments for adding more treesitter parsers
     },
     -- NGINX tree-sitter parser seems to be broken, do not install it
