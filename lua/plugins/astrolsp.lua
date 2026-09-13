@@ -78,10 +78,6 @@ return {
         },
       },
 
-      -- point groovyls at the wrapper script installed by Mason; the upstream default `cmd`
-      -- is a bare `java -jar` invocation that does not know where the jar landed
-      groovyls = { cmd = { vim.fn.stdpath "data" .. "/mason/bin/groovy-language-server" } },
-
       -- terraform-ls generates very verbose RPC logging that fills up the LSP log
       --
       -- See:
