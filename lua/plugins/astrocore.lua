@@ -28,6 +28,44 @@ local function get_terraform_search_dir()
   return search_dir
 end
 
+-- session-less state = the tool itself, attaching starts opencode in cwd
+local function opencode_start(opts)
+  local state = require "sidekick.cli.state"
+
+  for _, candidate in ipairs(state.get { name = "opencode" }) do
+    if not candidate.session then
+      state.attach(candidate, opts)
+      return true
+    end
+  end
+
+  return false
+end
+
+-- sidekick.nvim filter pinning to the opencode session of the current cwd, so
+-- opencode instances running in other repos never trigger the CLI picker.
+--
+-- `cwd = true` only matches states that already own a session, so with
+-- `start = true` a session is created first when this directory has none.
+local function opencode_filter(opts)
+  local filter = { name = "opencode", cwd = true }
+
+  if opts and opts.start and #require("sidekick.cli.state").get(filter) == 0 then opencode_start() end
+
+  return filter
+end
+
+-- `cli.toggle()` can't use `opencode_filter { start = true }`: starting the session already
+-- opens the window, then `toggle` sees it as pre-attached and hides it again.
+local function opencode_toggle()
+  local filter = { name = "opencode", cwd = true }
+
+  -- `show = true` also focuses (`State.attach` honours `focus ~= false`)
+  if #require("sidekick.cli.state").get(filter) == 0 and opencode_start { show = true } then return end
+
+  require("sidekick.cli").toggle { filter = filter }
+end
+
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
@@ -188,8 +226,121 @@ return {
           desc = "Kustomize",
         },
 
+        -- Remap sidekick.nvim from <Leader>A to <Leader>a
+        -- (astrocommunity.ai.sidekick-nvim registers these under <Leader>A)
+        ["<Leader>A"] = false,
+        ["<Leader>Aa"] = false,
+        ["<Leader>As"] = false,
+        ["<Leader>Ad"] = false,
+        ["<Leader>At"] = false,
+        ["<Leader>Af"] = false,
+        ["<Leader>Ap"] = false,
+        ["<Leader>An"] = false,
+        ["<Leader>Ant"] = false,
+        ["<Leader>Ane"] = false,
+        ["<Leader>And"] = false,
+        ["<Leader>Anu"] = false,
+        ["<Leader>a"] = { desc = require("astroui").get_icon("Sidekick", 1, true) .. "Sidekick" },
+        ["<Leader>aa"] = {
+          function() opencode_toggle() end,
+          desc = "Sidekick Toggle CLI",
+        },
+        ["<Leader>as"] = {
+          function() require("sidekick.cli").select() end,
+          desc = "Select CLI",
+        },
+        ["<Leader>ad"] = {
+          function() require("sidekick.cli").close { filter = opencode_filter() } end,
+          desc = "Detach a CLI Session",
+        },
+        ["<Leader>at"] = {
+          function() require("sidekick.cli").send { filter = opencode_filter { start = true }, msg = "{this}" } end,
+          desc = "Send This",
+        },
+        ["<Leader>af"] = {
+          function() require("sidekick.cli").send { filter = opencode_filter { start = true }, msg = "{file}" } end,
+          desc = "Send File",
+        },
+        ["<Leader>ap"] = {
+          -- `prompt()` drops `name`, its default callback calls `send{}` unpinned
+          function()
+            require("sidekick.cli").prompt {
+              cb = function(_, text)
+                if text then require("sidekick.cli").send { filter = opencode_filter { start = true }, text = text } end
+              end,
+            }
+          end,
+          desc = "Select Prompt",
+        },
+        ["<Leader>an"] = { desc = require("astroui").get_icon("SidekickBrain", 1, true) .. "NES" },
+        ["<Leader>ant"] = {
+          function() require("sidekick.nes").toggle() end,
+          desc = "Toggle NES",
+        },
+        ["<Leader>ane"] = {
+          function() require("sidekick.nes").enable() end,
+          desc = "Enable NES",
+        },
+        ["<Leader>and"] = {
+          function() require("sidekick.nes").disable() end,
+          desc = "Disable NES",
+        },
+        ["<Leader>anu"] = {
+          function() require("sidekick.nes").update() end,
+          desc = "Update Suggestions",
+        },
+
+        -- Pin quick-toggle to opencode
+        ["<C-.>"] = {
+          function() opencode_toggle() end,
+          desc = "Sidekick Toggle",
+        },
+
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
+      },
+      i = {
+        ["<C-.>"] = {
+          function() opencode_toggle() end,
+          desc = "Sidekick Toggle",
+        },
+      },
+      t = {
+        ["<C-.>"] = {
+          function() opencode_toggle() end,
+          desc = "Sidekick Toggle",
+        },
+      },
+      x = {
+        -- Remap sidekick.nvim from <Leader>A to <Leader>a (visual mode)
+        ["<Leader>A"] = false,
+        ["<Leader>At"] = false,
+        ["<Leader>Av"] = false,
+        ["<Leader>Ap"] = false,
+        ["<Leader>a"] = { desc = require("astroui").get_icon("Sidekick", 1, true) .. "Sidekick" },
+        ["<Leader>at"] = {
+          function() require("sidekick.cli").send { filter = opencode_filter { start = true }, msg = "{this}" } end,
+          desc = "Send This",
+        },
+        ["<Leader>av"] = {
+          function() require("sidekick.cli").send { filter = opencode_filter { start = true }, msg = "{selection}" } end,
+          desc = "Send Visual Selection",
+        },
+        ["<Leader>ap"] = {
+          -- `prompt()` drops `name`, its default callback calls `send{}` unpinned
+          function()
+            require("sidekick.cli").prompt {
+              cb = function(_, text)
+                if text then require("sidekick.cli").send { filter = opencode_filter { start = true }, text = text } end
+              end,
+            }
+          end,
+          desc = "Select Prompt",
+        },
+        ["<C-.>"] = {
+          function() opencode_toggle() end,
+          desc = "Sidekick Toggle",
+        },
       },
     },
     rooter = {
