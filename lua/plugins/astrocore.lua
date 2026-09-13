@@ -222,9 +222,6 @@ return {
           function() require("snacks").picker.commands() end,
           desc = "Run command",
         },
-        ["<C-k>"] = {
-          desc = "Kustomize",
-        },
 
         -- Remap sidekick.nvim from <Leader>A to <Leader>a
         -- (astrocommunity.ai.sidekick-nvim registers these under <Leader>A)
