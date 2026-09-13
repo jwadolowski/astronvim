@@ -46,6 +46,50 @@ return {
     -- client specific configuration can also go in `lsp/` in your configuration root (see `:h lsp-config`)
     config = {
       -- ["*"] = { capabilities = {} }, -- modify default LSP client settings such as capabilities
+
+      -- bash-language-server: Google Shell Style when .editorconfig is missing
+      -- Ref: https://google.github.io/styleguide/shellguide.html
+      --
+      -- Notes:
+      -- - Indent comes from editor settings, not LSP config
+      bashls = {
+        settings = {
+          bashIde = {
+            shfmt = {
+              caseIndent = true, -- (--case-indent)
+              simplifyCode = true, -- (--simplify)
+            },
+          },
+        },
+      },
+
+      -- yamlls generated errors for all Helm files ("templates/_helpers.tpl" in particular) are really misleading
+      -- hence the integration with YAML language server got disabled
+      --
+      -- https://github.com/mrjosh/helm-ls?tab=readme-ov-file#integration-with-yaml-language-server
+      -- https://www.arthurkoziel.com/json-schemas-in-neovim/
+      helm_ls = {
+        settings = {
+          ["helm-ls"] = {
+            yamlls = {
+              enabled = false,
+            },
+          },
+        },
+      },
+
+      -- point groovyls at the wrapper script installed by Mason; the upstream default `cmd`
+      -- is a bare `java -jar` invocation that does not know where the jar landed
+      groovyls = { cmd = { vim.fn.stdpath "data" .. "/mason/bin/groovy-language-server" } },
+
+      -- terraform-ls generates very verbose RPC logging that fills up the LSP log
+      --
+      -- See:
+      -- - https://github.com/hashicorp/terraform-ls/issues/1234
+      -- - https://github.com/hashicorp/terraform-ls/issues/1271
+      terraformls = {
+        cmd = { "terraform-ls", "serve", "-log-file", "/dev/null" },
+      },
     },
     -- customize how language servers are attached
     handlers = {
