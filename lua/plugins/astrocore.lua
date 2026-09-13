@@ -354,18 +354,6 @@ return {
       autochdir = true,
     },
     autocmds = {
-      -- Stop Supermaven for large buffers
-      supermaven_large_buf = {
-        {
-          event = "User",
-          pattern = "AstroLargeBuf",
-          desc = "Stop Supermaven for large buffers",
-          callback = function()
-            local ok, api = pcall(require, "supermaven-nvim.api")
-            if ok and api and api.stop then api.stop() end
-          end,
-        },
-      },
       -- Detect large buffers from stdin (piped input)
       stdin_large_buf = {
         {
