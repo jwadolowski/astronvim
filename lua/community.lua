@@ -39,7 +39,6 @@ return {
   { import = "astrocommunity.pack.just" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.markdown" },
-  { import = "astrocommunity.pack.pkl" },
   { import = "astrocommunity.pack.proto" },
   { import = "astrocommunity.pack.python.base" },
   { import = "astrocommunity.pack.python.basedpyright" },
@@ -51,7 +50,6 @@ return {
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.toml" },
   { import = "astrocommunity.pack.typescript-all-in-one" },
-  { import = "astrocommunity.pack.vue" },
   { import = "astrocommunity.pack.yaml" },
 
   -- quickfix
