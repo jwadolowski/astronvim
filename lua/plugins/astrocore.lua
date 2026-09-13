@@ -180,6 +180,14 @@ return {
           desc = "Find words",
         },
 
+        ["<Leader>r"] = {
+          function() require("snacks").picker.commands() end,
+          desc = "Run command",
+        },
+        ["<C-k>"] = {
+          desc = "Kustomize",
+        },
+
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
       },
