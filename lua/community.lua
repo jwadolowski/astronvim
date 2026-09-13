@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroCommunity: import any community modules here
 -- We import this file in `lazy_setup.lua` before the `plugins/` folder.
 -- This guarantees that the specs are processed before any user plugins.
@@ -7,6 +5,57 @@ if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
+
+  -- ai
+  { import = "astrocommunity.ai.sidekick-nvim" },
+
+  -- color
+  { import = "astrocommunity.color.tint-nvim" },
+
+  -- colorshemes
+  { import = "astrocommunity.colorscheme.catppuccin" },
+
+  -- editing-support
+  { import = "astrocommunity.editing-support.rainbow-delimiters-nvim" },
+  { import = "astrocommunity.editing-support.suda-vim" },
+
+  -- media
+  { import = "astrocommunity.media.codesnap-nvim" },
+
+  -- motion
+  { import = "astrocommunity.motion.nvim-surround" },
+  { import = "astrocommunity.motion.flash-nvim" },
+
+  -- pack
+  { import = "astrocommunity.pack.ansible" },
+  { import = "astrocommunity.pack.bash" },
+  { import = "astrocommunity.pack.cue" },
+  { import = "astrocommunity.pack.docker" },
+  { import = "astrocommunity.pack.go" },
+  { import = "astrocommunity.pack.helm" },
+  { import = "astrocommunity.pack.html-css" },
+  { import = "astrocommunity.pack.hurl" },
+  { import = "astrocommunity.pack.java" },
+  { import = "astrocommunity.pack.json" },
+  { import = "astrocommunity.pack.just" },
   { import = "astrocommunity.pack.lua" },
-  -- import/override with your plugins folder
+  { import = "astrocommunity.pack.markdown" },
+  { import = "astrocommunity.pack.proto" },
+  { import = "astrocommunity.pack.python.base" },
+  { import = "astrocommunity.pack.python.basedpyright" },
+  { import = "astrocommunity.pack.python.ruff" },
+  { import = "astrocommunity.pack.rego" },
+  { import = "astrocommunity.pack.ruby" },
+  { import = "astrocommunity.pack.rust" },
+  { import = "astrocommunity.pack.templ" },
+  { import = "astrocommunity.pack.terraform" },
+  { import = "astrocommunity.pack.toml" },
+  { import = "astrocommunity.pack.typescript-all-in-one" },
+  { import = "astrocommunity.pack.yaml" },
+
+  -- quickfix
+  { import = "astrocommunity.quickfix.nvim-bqf" },
+
+  -- syntax
+  { import = "astrocommunity.syntax.hlargs-nvim" },
 }
