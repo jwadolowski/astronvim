@@ -77,7 +77,7 @@ return {
     -- vim options can be configured here
     options = {
       opt = { -- vim.opt.<key>
-        relativenumber = true, -- sets vim.opt.relativenumber
+        relativenumber = false, -- sets vim.opt.relativenumber
         number = true, -- sets vim.opt.number
         spell = false, -- sets vim.opt.spell
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
@@ -116,6 +116,52 @@ return {
 
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
+      },
+    },
+    rooter = {
+      -- prefer .git over LSP
+      detector = {
+        { ".git", "_darcs", ".hg", ".bzr", ".svn" },
+        "lsp",
+        { "lua", "MakeFile", "package.json" },
+      },
+      -- replaces https://github.com/ahmedkhalf/project.nvim
+      autochdir = true,
+    },
+    autocmds = {
+      -- Stop Supermaven for large buffers
+      supermaven_large_buf = {
+        {
+          event = "User",
+          pattern = "AstroLargeBuf",
+          desc = "Stop Supermaven for large buffers",
+          callback = function()
+            local ok, api = pcall(require, "supermaven-nvim.api")
+            if ok and api and api.stop then api.stop() end
+          end,
+        },
+      },
+      -- Detect large buffers from stdin (piped input)
+      stdin_large_buf = {
+        {
+          event = "StdinReadPost",
+          desc = "Detect large buffers from piped input",
+          callback = function(args)
+            if vim.b[args.buf].large_buf then return end
+
+            local buffer = require "astrocore.buffer"
+            if buffer.is_large(args.buf) then
+              vim.b[args.buf].large_buf = true
+              local buf_name = vim.api.nvim_buf_get_name(args.buf)
+              if buf_name == "" then buf_name = "[stdin]" end
+              vim.notify(
+                ("Large file detected `%s`\nSome Neovim features may be **disabled**"):format(buf_name),
+                vim.log.levels.INFO
+              )
+              require("astrocore").event("LargeBuf", true)
+            end
+          end,
+        },
       },
     },
   },
