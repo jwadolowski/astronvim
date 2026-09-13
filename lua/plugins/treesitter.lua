@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- Customize Treesitter
 -- --------------------
 -- Treesitter customizations are handled with AstroCore
@@ -11,14 +9,17 @@ return {
   ---@type AstroCoreOpts
   opts = {
     treesitter = {
-      highlight = true, -- enable/disable treesitter based highlighting
-      indent = true, -- enable/disable treesitter based indentation
-      auto_install = true, -- enable/disable automatic installation of detected languages
       ensure_installed = {
         "lua",
         "vim",
+        "gotmpl",
+        "groovy",
         -- add more arguments for adding more treesitter parsers
       },
+      -- NGINX tree-sitter parser seems to be broken, keep it off (which also
+      -- stops `auto_install` from fetching it). Wraps AstroNvim's own default,
+      -- which disables treesitter in large buffers.
+      enabled = function(lang, bufnr) return lang ~= "nginx" and not require("astrocore.buffer").is_large(bufnr) end,
     },
   },
 }
