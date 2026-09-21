@@ -16,10 +16,10 @@ return {
         "groovy",
         -- add more arguments for adding more treesitter parsers
       },
-      -- NGINX tree-sitter parser seems to be broken, keep it off (which also
-      -- stops `auto_install` from fetching it). Wraps AstroNvim's own default,
-      -- which disables treesitter in large buffers.
-      enabled = function(lang, bufnr) return lang ~= "nginx" and not require("astrocore.buffer").is_large(bufnr) end,
+      -- NGINX and Hurl TS parsers are broken
+      enabled = function(lang, bufnr)
+        return not vim.list_contains({ "nginx", "hurl" }, lang) and not require("astrocore.buffer").is_large(bufnr)
+      end,
     },
   },
 }

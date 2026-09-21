@@ -34,7 +34,6 @@ return {
   { import = "astrocommunity.pack.go" },
   { import = "astrocommunity.pack.helm" },
   { import = "astrocommunity.pack.html-css" },
-  { import = "astrocommunity.pack.hurl" },
   { import = "astrocommunity.pack.java" },
   { import = "astrocommunity.pack.json" },
   { import = "astrocommunity.pack.just" },
