@@ -2,6 +2,12 @@
 
 ---@type LazySpec
 return {
+  -- npm's min-release-age blocks fresh releases mason pins; relax for nvim-spawned npm only
+  {
+    "mason-org/mason.nvim",
+    optional = true,
+    init = function() vim.env.npm_config_min_release_age = "0" end,
+  },
   -- Ensure groovy-language-server is installed via mason-lspconfig
   {
     "mason-org/mason-lspconfig.nvim",
