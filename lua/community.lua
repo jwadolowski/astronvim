@@ -49,7 +49,7 @@ return {
   { import = "astrocommunity.pack.templ" },
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.toml" },
-  { import = "astrocommunity.pack.typescript-all-in-one" },
+  { import = "astrocommunity.pack.typescript" },
   { import = "astrocommunity.pack.yaml" },
 
   -- quickfix
