@@ -117,6 +117,30 @@ return {
           end,
         },
       },
+      -- terraform-ls skips reparse on re-didOpen (buffer reload after external write, e.g. AI agent)
+      -- and serves stale semantic tokens; a full-text didChange forces reparse
+      --
+      -- See: https://github.com/hashicorp/terraform-ls/blob/v0.39.1/internal/features/modules/events.go#L67
+      terraformls_reload = {
+        cond = function(client) return client.name == "terraformls" end,
+        {
+          event = "BufReadPost",
+          desc = "Force terraform-ls reparse after buffer reload",
+          callback = function(args)
+            vim.schedule(function()
+              if not vim.api.nvim_buf_is_valid(args.buf) then return end
+              local text = table.concat(vim.api.nvim_buf_get_lines(args.buf, 0, -1, false), "\n")
+              if vim.bo[args.buf].eol then text = text .. "\n" end
+              for _, client in ipairs(vim.lsp.get_clients { bufnr = args.buf, name = "terraformls" }) do
+                client:notify("textDocument/didChange", {
+                  textDocument = { uri = vim.uri_from_bufnr(args.buf), version = vim.b[args.buf].changedtick },
+                  contentChanges = { { text = text } },
+                })
+              end
+            end)
+          end,
+        },
+      },
     },
     -- mappings to be set up on attaching of a language server
     mappings = {
