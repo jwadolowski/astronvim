@@ -86,6 +86,13 @@ return {
       -- - https://github.com/hashicorp/terraform-ls/issues/1271
       terraformls = {
         cmd = { "terraform-ls", "serve", "-log-file", "/dev/null" },
+        -- reference-count code lenses are noise; terraform-ls only registers them when
+        -- the client advertises showReferencesCommandId (set by nvim-lspconfig)
+        -- See: https://github.com/hashicorp/terraform-ls/blob/main/docs/features.md
+        before_init = function(params)
+          local experimental = params.capabilities.experimental
+          if experimental then experimental.showReferencesCommandId = nil end
+        end,
       },
     },
     -- customize how language servers are attached
